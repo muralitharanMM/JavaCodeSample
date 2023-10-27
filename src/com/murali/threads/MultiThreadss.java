@@ -10,21 +10,31 @@ class Disp implements Runnable{
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		int i=1;
-		while(true) {
-			System.out.println("print "+(i++));
+		System.out.println("my task is , i will print 5 times INDIA in 1 sec delay "
+				+ "then i will take 20 seonds REST :-) ");
+		for(int i=1;i<=5;i++) {
+			System.out.println("INDIA");
 			try {
-				Thread.sleep(200);
-				if(i==3) {
-					i=i/0;
-				}
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-				
+		}
+		System.out.println("waiting to complete 20seconds");
+		int second = 20;
+		while(true) {
+			System.out.println("please wait "+second+" seconds...");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			second--;
+			if(second<=0) {
+				break;
+			}
 		}
 	}
 	
@@ -35,15 +45,17 @@ public class MultiThreadss {
 		// TODO Auto-generated method stub
 		
 		ScheduledExecutorService ex = Executors.newScheduledThreadPool(1);
-		ScheduledFuture<?> future =    ex.scheduleWithFixedDelay(new Disp(), 0, 1, TimeUnit.MINUTES);
+		//ScheduledFuture<?> future =    ex.scheduleWithFixedDelay(new Disp(), 0, 1, TimeUnit.MINUTES);
+		//ex.scheduleWithFixedDelay(new Disp(), 0, 20, TimeUnit.SECONDS);  //should call Disp every 20 seconds
+		ex.scheduleAtFixedRate(new Disp(), 0, 20, TimeUnit.SECONDS); //should call Disp every 20 seconds
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		future.cancel(true);
-		ex.shutdown();
+		//future.cancel(true);
+		//ex.shutdown();
 		
 
 	}
