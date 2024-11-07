@@ -5,9 +5,11 @@ class Printt {
 	public void printieven() {
 		synchronized (this) {				
 			for(int i=0;i<10;i+=2) {
-				System.out.println("thread am printing even "+i);
+				System.out.println("thread am printing even "+i);				
+				notifyAll();
 				try {
-					Thread.sleep(500);					
+					wait();
+					Thread.sleep(1000);
 				}catch(InterruptedException ie	) {
 					ie.printStackTrace();
 				}
@@ -18,8 +20,10 @@ class Printt {
 		synchronized (this) {				
 			for(int i=1;i<10;i+=2) {
 				System.out.println("thread am printing odd "+i);
-				try {				
-					Thread.sleep(500);
+				notifyAll();
+				try {
+					wait();
+					Thread.sleep(1000);
 				}catch(InterruptedException ie	) {
 					ie.printStackTrace();
 				}
@@ -56,9 +60,10 @@ public static void main(String[] args) throws InterruptedException {
 	Printt p = new Printt();
 	
 	//t1.join();
-	Thread t2 = new Thread(new Odd(p));
-	t2.start();
 	Thread t1 = new Thread(new Even(p));
 	t1.start();
+	Thread t2 = new Thread(new Odd(p));
+	t2.start();
+	
 }
 }
